@@ -4,12 +4,19 @@
 <title>Posts</title>
 {% endblock %}
 
-{% block body %}
-    
+{% block body %}      
+<div class=" w3-display-container">
+    <img class="mySlides" src="{{url_for('static',filename='images/carousel1.jpg')}}" style="width:100%">
+    <img class="mySlides" src="{{url_for('static',filename='images/carousel2.jpg')}}" style="width:100%">
+    <img class="mySlides" src="{{url_for('static',filename='images/carousel3.jpg')}}" style="width:100%">
 
+    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
 
     {% for post in posts %}
-    <div class="row mt-2 " >
+
+    <div class="row mt-2" >
         <div class="col-md-3">
             <img src="{{url_for('static',filename='images/carousel1.jpg')}}" style="height: 190px; width: 100%; position: relative;
             margin: 0 auto;" alt="Card image">
@@ -33,7 +40,7 @@
             <h1>{{ post.price }}</h1>
         </div>
     </div>
-    </div>
+
 
 
 {% endfor %}

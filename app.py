@@ -1,52 +1,57 @@
-from flask import Flask,render_template
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-import sqlite3
+from flask import Flask, render_template, url_for, flash, redirect
+from forms import RegistrationForm, LoginForm
 
-app=Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///posts.db'
-# db = SQLAlchemy(app)
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
-# class ItemPost(db.Model):
-#     id = db.Column(db.Integer,primary_key=True)
-#     title=db.Column(db.String(100))
-#     content=db.Column(db.Text)
-#     seller=db.Column(db.String(30))
-#     date_posted=db.column(db.DateTime)
-
-#     def __repr__(self):
-#         return 'Blog Post' + str(self.id)
-
-all_posts=[
-    {     
-          'author':'jim',
-          'title':'Post 1',
-          'content':'content of post 1',
-          'date_posted':'April 20,2020', 
-          'price':'₹10,999'
-
+posts = [
+    {
+        'author': 'Corey Schafer',
+        'title': 'Blog Post 1',
+        'content': 'First post content',
+        'date_posted': 'April 20, 2018',
+        'price':'₹7,499'
     },
     {
-          'author':'kevin',
-          'title':'Post 2',
-          'content':'content of post 2', 
-          'date_posted':'April 21,2020',
-          'price':'₹11,999'
+        'author': 'Jane Doe',
+        'title': 'Blog Post 2',
+        'content': 'Second post content',
+        'date_posted': 'April 21, 2018',
+        'price':'₹8,499'
     }
-
 ]
 
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template('posts.html', posts=posts)
 
-@app.route('/')
-def hello():
-    return render_template('index.html')
-
-
-@app.route('/posts')
-def posts():
-    return render_template('posts.html',posts=all_posts)
-
+@app.route("/about")
+def about():
+    return render_template('about.html', title='About')
 
 
-if __name__ == "__main__":
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
+
+if __name__ == '__main__':
     app.run(debug=True)
