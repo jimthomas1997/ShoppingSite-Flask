@@ -15,6 +15,7 @@ Project is on a shopping site which is made using flask. The user has to registe
 &nbsp;&nbsp;&nbsp;&nbsp; pip install flask-sqlalchemy <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; pip install flask-bcrypt <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; pip install flask-login <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; pip install Pillow <br/>
 # Screenshots of the Shopping Site
    
     
